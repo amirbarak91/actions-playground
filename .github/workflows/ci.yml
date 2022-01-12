@@ -7,20 +7,24 @@ jobs:
   commit-json-file:
     runs-on: ubuntu-latest
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      # Checks-out your repository under $GITHUB_WORKSPACE, so the job can access it
+      - name: "Checkout repository"
       - uses: actions/checkout@v2
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
       # install node 14.x
+      - name: "install node-js"
       - uses: actions/setup-node@v2
         with:
-          node-version: '14.x'
-      - name: 'Run Script'
-        run: 'node script.js'
-      - name: 'commit files'
+          node-version: 14.x
+      # Run the script
+      - name: "Run Script"
+        run: node script.js
+      # commit the changes and push to the repo
+      - name: "commit files & push"
         run: |
           git config --local user.email "$(git log -n 1 --pretty=format:%an)"
           git config --local user.name "$(git log -n 1 --pretty=format:%ae)"
           git add --all
-          git commit -am "Change by: $(git log -n 1 --pretty=format:%ae)"
+          git commit -am "Data Changed by $(git log -n 1 --pretty=format:%ae)"
           git push
