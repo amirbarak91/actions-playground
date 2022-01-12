@@ -16,7 +16,7 @@ jobs:
         with:
           node-version: '14.x'
       - name: 'Run Script'
-        run: 'node run script.js'
+        run: 'node script.js'
       - name: 'commit files'
         run: '|
           git config --local user.email "$(git log -n 1 --pretty=format:%an)"
