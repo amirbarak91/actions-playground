@@ -18,9 +18,9 @@ jobs:
       - name: 'Run Script'
         run: 'node script.js'
       - name: 'commit files'
-        run: '|
+        run: |
           git config --local user.email "$(git log -n 1 --pretty=format:%an)"
           git config --local user.name "$(git log -n 1 --pretty=format:%ae)"
           git add --all
           git commit -am "add data"
-          git push'
+          git push
