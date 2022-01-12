@@ -1,51 +1,26 @@
-name: Go
-
 on:
   push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
+    paths:
+      - 'data/**'
 
 jobs:
-
-  build:
-    name: Actions CI
-    runs-on: ubuntu-18.04
+  commit:
+    runs-on: ubuntu-latest
     steps:
-
-    - name: Set up Go 1.13
-      uses: actions/setup-go@v1
-      with:
-        go-version: 1.13
-      id: go
-
-    - name: Setup Go binary path
-      shell: bash
-      run: |
-        echo "::set-env name=GOPATH::${{ github.workspace }}"
-        echo "::add-path::${{ github.workspace }}/bin"
-        uname -a
-
-    - name: Check out code
-      uses: actions/checkout@v2
-      with:
-        path: src/github.com/estesp/actions-playground
-        fetch-depth: 25
-
-    - name: r00t Build
-      working-directory: src/github.com/estesp/actions-playground
-      run: |
-        echo "***************"
-        echo "ACTIONS GO ENV:"
-        echo ""
-        go env
-        echo ""
-        echo "**** PATH: "
-        echo $PATH
-        echo ""
-        sudo PATH=$PATH GOPATH=$GOPATH _root=$GOROOT GOROOT=$GOROOT ./install-runc
-
-    - name: Build
-      working-directory: src/github.com/estesp/actions-playground
-      run: |
-        make binary
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+        with:
+         token: ${{ secrets.PAT }}
+      # install node 14.x
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14.x'
+      - name: 'Run Script'
+        run: 'node run script.js'
+      - name: 'commit files'
+        run: '|
+          git config --local user.email "$(git log -n 1 --pretty=format:%an)"
+          git config --local user.name "$(git log -n 1 --pretty=format:%ae)"
+          git add --all
+          git commit -am "add data"
+          git push'
