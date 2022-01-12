@@ -4,7 +4,7 @@ on:
       - 'data/**'
 
 jobs:
-  commit:
+  commit-json-file:
     runs-on: ubuntu-latest
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
@@ -22,5 +22,5 @@ jobs:
           git config --local user.email "$(git log -n 1 --pretty=format:%an)"
           git config --local user.name "$(git log -n 1 --pretty=format:%ae)"
           git add --all
-          git commit -am "add data"
+          git commit -am "Change by: $(git log -n 1 --pretty=format:%ae)"
           git push
