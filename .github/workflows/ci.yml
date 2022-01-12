@@ -10,7 +10,7 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
         with:
-         token: ${{ secrets.PAT }}
+          token: ${{ secrets.UBERSHMEKEL_ALT_TOKEN }}
       # install node 14.x
       - uses: actions/setup-node@v2
         with:
